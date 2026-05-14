@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "Stop": [{"hooks": [{"type": "command", "command": "$HOME/.claude/hooks/speak.sh", "async": true}]}],
+    "Notification": [{"hooks": [{"type": "command", "command": "$HOME/.claude/hooks/speak.sh", "async": true}]}],
+    "PermissionRequest": [{"hooks": [{"type": "command", "command": "$HOME/.claude/hooks/speak.sh", "async": true}]}],
+    "StopFailure": [{"hooks": [{"type": "command", "command": "$HOME/.claude/hooks/speak.sh", "async": true}]}],
+    "SessionStart": [{"hooks": [{"type": "command", "command": "$HOME/.claude/hooks/speak.sh", "async": true}]}]
+  }
+}

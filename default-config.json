@@ -1,0 +1,30 @@
+{
+  "_comment": "Per-event audio config. `voice` is passed to macOS `say -v` — run `say -v '?'` to list voices available on your system. `phrase` is a jq expression evaluated against the hook's JSON payload; return an empty string to silence that event. `debounce_s` is a sliding-window debounce in seconds (0 disables). Default uses Samantha, which ships built-in on every Mac. Replace with whichever voices you prefer.",
+  "events": {
+    "Stop": {
+      "voice": "Samantha",
+      "phrase": "\"Claude done in \" + ((.cwd // \"\")|split(\"/\")|last)",
+      "debounce_s": 0
+    },
+    "Notification": {
+      "voice": "Samantha",
+      "phrase": "if ((.message // \"\") | startswith(\"Claude needs your permission\")) then \"\" else \"Notification in \" + ((.cwd // \"\")|split(\"/\")|last) + \" - \" + ((.message // \"ready\")[:50]) end",
+      "debounce_s": 0
+    },
+    "PermissionRequest": {
+      "voice": "Samantha",
+      "phrase": "\"Permission request in \" + ((.cwd // \"\")|split(\"/\")|last) + \" for \" + (.tool_name // \"unknown\")",
+      "debounce_s": 15
+    },
+    "StopFailure": {
+      "voice": "Samantha",
+      "phrase": "\"Stop failure - \" + ((.error_type // \"error\")[:50])",
+      "debounce_s": 0
+    },
+    "SessionStart": {
+      "voice": "Samantha",
+      "phrase": "if .source == \"startup\" then \"\" else \"Session \" + (.source // \"\") + \" in \" + ((.cwd // \"\")|split(\"/\")|last) end",
+      "debounce_s": 0
+    }
+  }
+}
