@@ -42,7 +42,13 @@ hook_focus_diag() {
     return
   fi
 
-  ls_result=$(kitty @ ls 2>/dev/null)
+  # Hook subprocesses don't have /dev/tty, so kitty's auto-discovery via the
+  # OSC channel fails. Prefer the socket path exported by `listen_on` if set.
+  if [ -n "$KITTY_LISTEN_ON" ]; then
+    ls_result=$(kitty @ --to "$KITTY_LISTEN_ON" ls 2>/dev/null)
+  else
+    ls_result=$(kitty @ ls 2>/dev/null)
+  fi
   if [ -z "$ls_result" ]; then
     printf '{"kitty_query_ok":false,"reason":"ls_failed","my_wid":%s}' "$wid"
     return

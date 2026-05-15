@@ -19,7 +19,12 @@ Silenced automatically when the kitty tab is currently visible (no point announc
 ## Prerequisites
 
 - macOS (uses `say` for TTS)
-- [kitty](https://sw.kovidgoyal.net/kitty/) terminal with `allow_remote_control yes` in `~/.config/kitty/kitty.conf`
+- [kitty](https://sw.kovidgoyal.net/kitty/) terminal with the following in `~/.config/kitty/kitty.conf`:
+  ```
+  allow_remote_control yes
+  listen_on unix:/tmp/kitty-{kitty_pid}
+  ```
+  Then **fully restart kitty** (not just config reload — `listen_on` is a startup option). The `listen_on` line is required: hook subprocesses don't have a controlling `/dev/tty`, so `kitty @ ls` can't auto-discover the parent kitty via the OSC channel. The socket lets it connect explicitly via `$KITTY_LISTEN_ON`.
 - `jq` (`brew install jq`)
 - Claude Code 2.x
 
